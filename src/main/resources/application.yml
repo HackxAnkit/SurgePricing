@@ -41,6 +41,7 @@ surge:
   data-freshness-seconds: 30
   warmup-seconds: 30
   base-fare: 10.0
+  price-per-km: 20.0
   surge-drop-threshold: 0.5
 
 logging:

@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -112,12 +111,10 @@ public class SurgePricingWorker {
             double surgeIncrease = (1.0 - ratio) * 2.0; // 50% drop = 1.0x increase
             double surge = properties.getBaseSurgeMultiplier() + surgeIncrease;
 
-            // Factor in demand if significant
             if (demand > currentDrivers * 2) {
-                surge += 0.5; // Additional surge for high demand
+                surge += 0.5;
             }
 
-            // Cap at max surge
             return Math.min(surge, properties.getMaxSurgeMultiplier());
         }
 

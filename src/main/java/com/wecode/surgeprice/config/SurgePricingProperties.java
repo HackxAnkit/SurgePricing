@@ -16,6 +16,7 @@ public class SurgePricingProperties {
     private int dataFreshnessSeconds = 30;
     private int warmupSeconds = 30;
     private double baseFare = 10.0;
+    private double pricePerKm = 20.0;
     private double surgeDropThreshold = 0.5; // 50% drop triggers surge
 
     // Getters and Setters
@@ -53,6 +54,9 @@ public class SurgePricingProperties {
 
     public double getBaseFare() { return baseFare; }
     public void setBaseFare(double baseFare) { this.baseFare = baseFare; }
+
+    public double getPricePerKm() { return pricePerKm; }
+    public void setPricePerKm(double pricePerKm) { this.pricePerKm = pricePerKm; }
 
     public double getSurgeDropThreshold() { return surgeDropThreshold; }
     public void setSurgeDropThreshold(double surgeDropThreshold) {

@@ -1,6 +1,7 @@
 package com.wecode.surgeprice.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,10 +13,12 @@ public class DriverLocationDTO {
 
     @NotNull
     @JsonProperty("lat")
+    @JsonAlias({"latitude"})
     private Double lat;
 
     @NotNull
     @JsonProperty("lng")
+    @JsonAlias({"longitude"})
     private Double lng;
 
     @JsonProperty("timestamp")

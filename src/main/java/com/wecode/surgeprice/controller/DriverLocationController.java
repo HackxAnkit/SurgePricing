@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,6 +51,28 @@ public class DriverLocationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("status", "error", "message", e.getMessage()));
         }
+    }
+
+    @PostMapping("/location/batch")
+    public ResponseEntity<Map<String, String>> updateLocationBatch(
+            @Valid @RequestBody List<DriverLocationDTO> locations) {
+        int accepted = 0;
+        for (DriverLocationDTO location : locations) {
+            try {
+                String message = objectMapper.writeValueAsString(location);
+                kafkaTemplate.send(TOPIC_NAME, location.getDriverId(), message)
+                        .whenComplete((result, ex) -> {
+                            if (ex != null) {
+                                logger.error("Failed to send location update for driver {}", location.getDriverId(), ex);
+                            }
+                        });
+                accepted++;
+            } catch (Exception e) {
+                logger.error("Error processing location update", e);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(Map.of("status", "accepted", "count", String.valueOf(accepted)));
     }
 
     @GetMapping("/health")
