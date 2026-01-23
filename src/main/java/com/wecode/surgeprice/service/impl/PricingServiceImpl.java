@@ -80,4 +80,5 @@ public class PricingServiceImpl implements PricingService {
         }
         return properties.getH3Resolution();
     }
+
 }
